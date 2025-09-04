@@ -215,7 +215,7 @@ app.get('/', (req, res) => {
         <title>ESP32 Sensor Dashboard</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             
@@ -676,9 +676,11 @@ app.get('/', (req, res) => {
                     const result = await response.json();
                     const stats = result.stats;
                     
-                    if (!stats || stats.total_records === 0) {
-                        document.getElementById('stats').innerHTML = '<p style="text-align: center; color: #6c757d;">No data available yet</p>';
-                        document.getElementById('current-values').innerHTML = '<p style="text-align: center; color: #6c757d;">Waiting for first reading...</p>';
+                    if (!stats || !stats.total_records || !stats.temperature || !stats.humidity) {
+                        document.getElementById('stats').innerHTML =
+                            '<p style="text-align: center; color: #6c757d;">No data available yet</p>';
+                        document.getElementById('current-values').innerHTML =
+                            '<p style="text-align: center; color: #6c757d;">Waiting for first reading...</p>';
                         return;
                     }
                     
